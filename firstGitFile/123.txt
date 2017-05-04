@@ -1,0 +1,25 @@
+{
+	"provinceId": "8620000",
+	"queryType": "1",
+	"tailFlag": "",
+	"pnLevelCd": "",
+	"maxPrePrice": "",
+	"pageSize": "20",
+	"pnHead": "",
+	"areaId": "8620100",
+	"goodNumFlag": "",
+	"pageIndex": "1",
+	"pnEnd": "",
+	"phoneNum": "",
+	"minPrePrice": "",
+	"reqInfo": {
+		"pnLevelCd": "",
+		"requestService": "PnQueryService",
+		"reqTime": "20170503164620",
+		"srcSysID": "CRM4GOrLTE",
+		"distributorId": "1",
+		"tranId": "6004010001201911032000815751",
+		"areaId": "8620100"
+	},
+	"poolId": ""
+}
