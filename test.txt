@@ -1,4 +1,0 @@
-hello git!
-conficts!
- --no--ff
-git stash
