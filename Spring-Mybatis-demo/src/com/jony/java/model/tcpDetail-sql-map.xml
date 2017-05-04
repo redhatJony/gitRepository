@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
+ -->
+
+<mapper namespace="com.jony.java.dao.TcpDetailDao">
+   <select id="qryAllDepTcpContDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap" >
+	    	<![CDATA[
+				SELECT BUS_CODE,
+	             SERVICE_CODE,
+	             SERVICE_CONTRACT_VER,
+	             ACTION_CODE,
+	             SERVICE_LEVEL,
+	             SRC_ORG_ID,
+	             SRC_SYS_ID,
+	             SRC_SYS_SIGN,
+	             DST_ORG_ID,
+	             DST_SYS_ID,
+	             OPERATE_NAME,
+	             SERVICE_CODE_TYPE_CD,
+	             SERVICE_OFFER_ID_LIST,
+	             PROC_MODEL,
+	             FIRST_INTERFACE,
+	             NEED_FEEDBACK,
+	             REMARK,
+	             USE_XML_SERVICE_CODE,
+	             TO_CHAR(VERSION, 'YYYY-MM-DD HH24:MI:SS') AS VERSION,
+	             SRVC_INST_ID
+		        FROM DEP_TCP_DETAIL C
+		       WHERE c.STATUS_CD = '0'
+		       ORDER BY c.ORDER_SEQ
+			]]>
+	</select>
+	<select id="qryAllBusiSceneCdFromDepPrvncBusi" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT BUSI_SCENE_CD,
+			       BUSI_SCENE_NAME,
+			       TO_CHAR(OBJ_TYPE) AS OBJ_TYPE,
+			       TO_CHAR(PROD_SPEC_ID) AS PROD_SPEC_ID,
+			       BUSI_TYPE_CD,
+			       PROC_FUNC,
+			       KEY_IDENTIFY_LOGIC_STR,
+			       REMARK
+			  FROM DEP_PRVNC_BUSI
+			 WHERE STATUS_CD = '0'
+			  ORDER BY ORDER_SEQ
+		]]>
+	</select>
+</mapper>
