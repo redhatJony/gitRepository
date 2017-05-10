@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xsi:schemaLocation="
+			 http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+           http://www.springframework.org/schema/context   
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd  ">
+           
+           <bean id="myAppContext" class="com.jony.java.utils.SpringUtil" />
+       <!--     
+		 <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">    
+		  	 <property name="maxTotal" value="${redis.maxTotal}" />
+		     <property name="maxIdle" value="${redis.maxIdle}" /> 
+		     <property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis}" />
+		     <property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}" />
+		     <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+		 </bean>
+ 
+		 <bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy">
+			 <constructor-arg ref="jedisPoolConfig" />
+			 <constructor-arg value="${redis.host}" />
+			 <constructor-arg type="int" value="${redis.port}" />
+		 </bean> -->
+ 
+		<bean id="routeRedis" class="java.util.HashMap">
+			<constructor-arg>
+				<map>
+					<entry>
+						<key>
+							<value>000001</value>
+						</key>
+						<value>cacheClientDef</value>
+					</entry>
+					<entry>
+						<key>
+							<value>000002</value>
+						</key>
+						<value>cacheClient02</value>
+					</entry>
+				</map>
+			</constructor-arg>
+   		</bean>
+   		<bean id="cacheClientDef" class="com.al.crm.nosql.cache.impl.RedisCache" > <!-- scope="prototype" -->
+			<constructor-arg>
+				<props>
+					<prop key="redis.url">${RedisURL_DEF}</prop>
+					<prop key="redis.maxActive">${REDIS_MAX_ACTIVE}</prop>
+					<prop key="redis.maxIdle">${REDIS_MAX_IDLE}</prop>
+					<prop key="redis.minIdle">${REDIS_MIN_IDLE}</prop>
+				</props>
+			</constructor-arg>
+		</bean>
+		<bean id="cacheClient02" class="com.al.crm.nosql.cache.impl.RedisCache">
+			<constructor-arg>
+				<props>
+					<prop key="redis.url">${RedisURL_OT}</prop>
+					<prop key="redis.maxActive">${REDIS_MAX_ACTIVE}</prop>
+					<prop key="redis.maxIdle">${REDIS_MAX_IDLE}</prop>
+					<prop key="redis.minIdle">${REDIS_MIN_IDLE}</prop>
+				</props>
+			</constructor-arg>
+		</bean>
+ </beans>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xsi:schemaLocation="
+			 http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+           http://www.springframework.org/schema/context   
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+           http://www.springframework.org/schema/mvc   
+           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd" default-autowire="byName">
+           
+	<!-- 引入jdbc配置文件 -->  
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="locations">  
+            <list>  
+                <value>classpath:configs/db.properties</value>  
+                <value>classpath:configs/redis.properties</value>
+            </list>  
+        </property>  
+    </bean>
+    
+    <!-- 导入redis配置文件 -->
+    <import resource="app-redis.xml"/>
+  
+    <!-- 配置数据源 -->
+    <!-- dataSource 配置 -->  
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  destroy-method="close">  
+        <!-- 基本属性 url、user、password -->  
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />  
+        <property name="username" value="${jdbc.username}" />  
+        <property name="password" value="${jdbc.password}" />  
+  
+        <!-- 配置初始化大小、最小、最大 -->  
+        <property name="initialSize" value="1" />  
+        <property name="minIdle" value="1" />  
+        <property name="maxActive" value="20" />  
+    </bean> 
+    
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="configLocation" value="classpath:configs/mybatis-config.xml"></property>
+    <property name="dataSource" ref="dataSource"></property>
+  </bean>
+  <!-- Mybatis会自动绑定sqlmap文件namespace="com.jony.java.dao.UserDao"命名空间下selectID与dao抽象方法名称相同的方法，然后调用 -->
+  <bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    <property name="mapperInterface" value="com.jony.java.dao.UserDao"></property>
+    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+  </bean>
+   <bean id="tcpDetailDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    <property name="mapperInterface" value="com.jony.java.dao.TcpDetailDao"></property>
+    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+  </bean>
+ <!--   @Service用于标注业务层组件、
+		@Controller用于标注控制层组件（如struts中的action）、
+		@Repository用于标注数据访问组件，即DAO组件。
+		而@Component泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注。 这四种注解仅仅是角色不同，但实质都一样。 
+		@Autowired 默认按类型装配，@Resource默认按名称装配，当找不到与名称匹配的bean才会按类型装配。
+ -->
+  <!-- 自动扫描所有包中的带注解的类@service @Resource @Autowired -->
+  <context:component-scan base-package="*"/> 
+  
+  <bean id="userService" class="com.jony.java.service.UserServiceImpl">
+    <property name="userDao" ref="userDao"></property>
+  </bean>
+  <bean id="threadService" class="com.jony.java.service.ThreadServiceImpl">
+  </bean>
+  
+ 
+ <!--  <bean id="jedisUtil" class="com.jony.java.jedis.JedisUtil">
+  	<property name="jedisPool" ref="jedisPool"></property>
+  </bean>
+  -->
+</beans>
