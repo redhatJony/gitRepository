@@ -29,8 +29,8 @@ public class AutoCreateSQLController {
 	 private IAutoCreateSQL autoCreateSQL;
 	 @Resource 
 	 private TcpDetailService tcpDetailService;
-	 @Resource
-	 private JedisUtil jedisUtil;
+//	 @Resource
+//	 private JedisUtil jedisUtil;
 	 
 	 private static String filePath = "D:\\AsiaInfoDoc\\CommCodeFile\\";//默认文件路径
 	 private static String readerFileName = "templeteSQL.sql";//默认模板文件
@@ -79,8 +79,8 @@ public class AutoCreateSQLController {
 			String serviceCode = null;
 			String keyElement = null;
 			String srvcInstId = null;
-			Jedis jedisPool = jedisUtil.getJedis();
-			jedisPool.select(1);
+//			Jedis jedisPool = jedisUtil.getJedis();
+//			jedisPool.select(1);
 //			for (Map<String, String> depTcpContDetailMap : depTcpContDetailList) {
 //				i++;
 //				busCode = depTcpContDetailMap.get("BUS_CODE");

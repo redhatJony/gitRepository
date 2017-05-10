@@ -9,12 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import redis.clients.jedis.Jedis;
 
 import com.jony.java.jedis.JedisUtil;
 import com.jony.java.jedis.JedisUtil.Strings;
 import com.jony.java.model.UserVO;
+import com.jony.java.service.IRedisService;
 import com.jony.java.service.UserService;
 @Controller  
 @RequestMapping("/user")  
@@ -23,6 +25,8 @@ public class UserController {
     private UserService userService;
     @Resource
     private JedisUtil jedisUtil;
+    @Resource
+    private IRedisService redisService;
   //通过HttpServletRequest请求，获取前台页面传过来的值
     @RequestMapping("/getUserJedis")
     public String getUserJedis(HttpServletRequest request,Model model){  
@@ -33,7 +37,6 @@ public class UserController {
 //        String password = strs.get("password");
 //        model.addAttribute("jedisName", userName);  
 //        model.addAttribute("password", password);  
-        //hashMap
         HashMap<?, ?> hashMap = (HashMap<?, ?>) jedisPool.hgetAll(userId);
         model.addAttribute("jedisHashMap", hashMap);  
         return "showJedisCache"; 
@@ -53,6 +56,13 @@ public class UserController {
     	UserVO user = this.userService.findByUserId(userId);
     	model.addAttribute("user", user);  
     	return "showUser";//返回的字符串对应到JSP文件的名称
+    }
+    //通过注解RequestParam标识自动绑定的，从前台页面传过来的值
+    @RequestMapping("/putCache")
+    public @ResponseBody void putCache(HttpServletRequest request,Model model){
+    	String key = request.getParameter("key");  
+    	String value = request.getParameter("value"); 
+    	this.redisService.insert(key,value);
     }
     @RequestMapping("/hello")
     public String hello(String str,Model model){  
