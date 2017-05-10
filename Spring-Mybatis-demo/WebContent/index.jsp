@@ -53,5 +53,10 @@
   		ServiceCode: <input type="text" name="ServiceCode" />
   		<input type="submit" value="Submit" />
 </form>
+<form action="<%=basePath%>user/putCache" method="post">
+  		key: <input type="text" name="key" />
+  		value: <input type="text" name="value" />
+  		<input type="submit" value="Submit" />
+</form>
 </body>
 </html>
